@@ -11,49 +11,36 @@ def load_user_data(input_file_name):
         customer_info.append(line.replace("\n","").split(','))
     return (customer_info)
 
-print(load_user_data(input_file_name))
-
 customer_info = load_user_data(input_file_name)
-def prompt(username, password):
-    username = input("Please enter your Username: ")
-    password = input("Please enter your Password: ")
-prompt           
+
 def do_username_password_match(username, password):
     for customer in customer_info:
         if customer[0] == username and customer[1] == password:
             return True
-match = do_username_password_match(username, password)
-
-def try_again(username, password):
-    while True:
-        username = input("Please enter your Username: ")
-        password = input("Please enter your Password: ")
-        if match is False:
-            print("The Username or password is not correct, please try again!")
-        else:
-            break
-
-try_again(username, password)
 
 def display_user_info(username, password):
     for customer in customer_info:
         if customer[0] == username and customer[1] == password:
             return(f"Full Name: {customer[2]}\nAccount Balance: {customer[3]}")
-        elif customer[0] != username and customer[1] != password:
-            return("username and password not found")
 
-print(display_user_info(username, password))
+def balance_check():
+    print("Welcome to Balance-Check app!") 
+    allowed_login_attempts = 3
+    login_attempts = 0
+    while True:
+        username = input("Please enter your Username: ")
+        password = input("Please enter your Password: ")
+        match = do_username_password_match(username, password)     
+        if match is True:
+            print(display_user_info(username, password))
+            return(display_user_info(username, password))
+        elif match is not True:
+            print("Username or password does not match!")
+            login_attempts += 1
+            if login_attempts == allowed_login_attempts:
+                print("There are too many wrong entries, please reach out to us for further assistance or re-open the app.")
+                break    
 
 
-        
-# def balance_check():
-#     print("Welcome to Balance-Check app!")
-   
-
-
-    
-
-
-
-
-
+load_user_data(input_file_name)
+balance_check()
